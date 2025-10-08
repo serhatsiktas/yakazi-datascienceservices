@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basisdesign YAKAZI */
+html {
+  scroll-behavior: smooth;
+  background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+  color: #F9FAFB;
+  font-family: 'Poppins', sans-serif;
+}
+
+a {
+  color: #14B8A6;
+}
+
+button {
+  @apply bg-yakaziTurquoise text-yakaziWhite px-5 py-2 rounded-xl font-semibold transition duration-300;
+}
+
+button:hover {
+  @apply bg-yakaziWhite text-yakaziBlue;
+}
+/* --- Sanftes Scrollen und Offset für Ankerbereiche --- */
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 100px; /* Höhe des fixierten Headers */
+}
+/* --- Individuelle Yakazi-Formularstile --- */
+::placeholder {
+  color: #9ca3af; /* Tailwind gray-400 */
+}
+
+input,
+textarea {
+  color: #ffffff; /* Weißer Text in Eingabefeldern */
+}
+footer a:hover {
+  text-shadow: 0 0 6px rgba(20, 184, 166, 0.6);
+}
