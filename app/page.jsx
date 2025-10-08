@@ -146,7 +146,7 @@ export default function Home() {
   <div className="flex flex-col items-center space-y-4">
     {/* Geschäftsführer-Bild */}
     <Image
-      src="/yakazi_gf_bild_serhat_siktas.png"
+      src="/Yakazi_GF_Bild_Serhat_Siktas.png"
       alt="Serhat Siktas – Geschäftsführer"
       width={200}
       height={200}
