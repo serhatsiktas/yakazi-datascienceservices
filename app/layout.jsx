@@ -1,6 +1,20 @@
 import "./globals.css";
 
 export const metadata = {
+   twitter: {
+    card: "summary_large_image",
+    title: "YAKAZI | Data Science Services",
+    description:
+      "Wir machen Künstliche Intelligenz anwendbar – für Unternehmen, Teams und Prozesse.",
+    images: ["/yakazi-hero.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
   title: "YAKAZI | Data Science Services",
   description:
     "Wir machen Künstliche Intelligenz anwendbar – für Unternehmen, Teams und Prozesse. YAKAZI Data Science Services hilft Unternehmen, KI-Potenziale in Produktivität zu verwandeln.",
@@ -48,7 +62,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="de">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/svg+xml" href="/yakazi-logo.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#3E4C61" />
+      </head>
       <body>{children}</body>
     </html>
   );
 }
+
