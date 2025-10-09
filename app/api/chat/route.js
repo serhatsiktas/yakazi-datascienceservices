@@ -10,39 +10,27 @@ export async function POST(req) {
   try {
     const { message } = await req.json();
 
+    // Eingabe prüfen
     if (!message || message.trim() === "") {
       return NextResponse.json({
         reply: "Bitte stellen Sie eine konkrete Frage 😊",
       });
     }
 
-    const completion = await client.chat.completions.create({
-      model: "gpt-5", // oder "gpt-4o-mini" für günstigere Variante
-      messages: [
-        {
-          role: "system",
-          content:
-            "Du bist der YAKAZI KI-Assistent. Antworte professionell, freundlich und klar auf Deutsch. Sprich in einem Ton, der sowohl technische Expertise als auch Verständnis für Unternehmensprozesse zeigt.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
-      ],
+    // Anfrage an OpenAI senden (neue API-Struktur)
+    const completion = await client.responses.create({
+      model: "gpt-4o-mini",
+      input: `Antworte auf Deutsch, freundlich und präzise: ${message}`,
     });
 
-    const reply = completion.choices[0].message?.content || "Ich konnte leider keine Antwort generieren.";
+    // Antworttext extrahieren
+    const reply = completion.output[0].content[0].text;
 
     return NextResponse.json({ reply });
   } catch (error) {
-    console.error("❌ Fehler im Yakazi Chat API:", error);
-    return NextResponse.json(
-      {
-        reply:
-          "Entschuldigung, es gab ein technisches Problem beim Abrufen der Antwort. Bitte versuchen Sie es später erneut.",
-      },
-      { status: 500 }
-    );
+    console.error("YAKAZI KI-Fehler:", error);
+    return NextResponse.json({
+      reply: "⚠️ Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+    });
   }
 }
-
