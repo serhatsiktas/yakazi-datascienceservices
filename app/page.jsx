@@ -17,40 +17,37 @@ export default function Home() {
   return (
     <>
       {/* HEADER */}
-      <header className="w-full flex justify-between items-center px-6 py-4 bg-yakaziBlueDark fixed top-0 left-0 z-50">
-        <div className="flex items-center space-x-3">
-          <Image src="/logo.png" alt="YAKAZI Logo" width={160} height={60} priority />
-        </div>
+<header className="w-full flex justify-between items-center px-8 py-4 bg-[#0F172A]/95 backdrop-blur-sm fixed top-0 left-0 z-50 shadow-md">
+  <div className="flex items-center space-x-3">
+    <Image src="/logo.png" alt="YAKAZI Logo" width={160} height={60} priority />
+  </div>
 
-        <nav className="hidden md:flex space-x-6 text-sm uppercase tracking-wide">
-          <a href="#leistungen" className="hover:text-yakaziTurquoise transition-colors">Leistungen</a>
-          <a href="#ueberuns" className="hover:text-yakaziTurquoise transition-colors">Über uns</a>
-          <a href="#kontakt" className="hover:text-yakaziTurquoise transition-colors">Kontakt</a>
-        </nav>
-      </header>
+  <nav className="hidden md:flex space-x-8 text-sm uppercase tracking-wide">
+    <a href="#leistungen" className="text-gray-200 hover:text-[#14B8A6] transition-colors">Leistungen</a>
+    <a href="#ueberuns" className="text-gray-200 hover:text-[#14B8A6] transition-colors">Über uns</a>
+    <a href="#kontakt" className="text-gray-200 hover:text-[#14B8A6] transition-colors">Kontakt</a>
+  </nav>
+</header>
 
-      {/* HERO-BEREICH – ohne Hintergrundbild */}
-<main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#E6ECF4] via-[#CBD3E1] to-white text-center px-6">
-  <div className="max-w-4xl">
-    <h1 className="text-4xl md:text-6xl font-bold text-[#2C3442] mb-6 leading-tight">
+{/* HERO-BEREICH ohne Bild */}
+<main className="flex flex-col items-center justify-center min-h-[85vh] bg-gradient-to-b from-[#1E293B] via-[#243447] to-[#0F172A] text-center px-6 pt-32 pb-20">
+  <div className="max-w-3xl">
+    <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
       YAKAZI | Data Science Services
     </h1>
-    <p className="text-xl md:text-2xl text-[#3E4C61] mb-4">
+    <p className="text-xl md:text-2xl text-[#A7C8E7] mb-3">
       Wir machen Künstliche Intelligenz anwendbar.
     </p>
-    <p className="text-lg text-[#4A5568]">
+    <p className="text-lg text-gray-300 mb-10">
       Für Unternehmen, Teams und Prozesse.
     </p>
 
-    {/* Optional: dezenter Yakazi-Glow-Button */}
-    <div className="mt-10">
-      <a
-        href="#kontakt"
-        className="bg-gradient-to-r from-[#3E4C61] to-[#1E2530] text-white px-8 py-3 rounded-full shadow-md hover:shadow-[#A7C8E7]/60 hover:scale-105 transition-all duration-300"
-      >
-        Kontakt aufnehmen
-      </a>
-    </div>
+    <a
+      href="#kontakt"
+      className="inline-block bg-[#14B8A6] text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-[#A7C8E7]/60 hover:scale-105 transition-transform duration-300"
+    >
+      Kontakt aufnehmen
+    </a>
   </div>
 </main>
 
