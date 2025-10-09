@@ -48,6 +48,41 @@ export default function Home() {
       </header>
 
       {/* MAIN CONTENT */}
+
+import Image from "next/image";
+
+export default function Home() {
+  return (
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#CBD3E1] to-white">
+      
+      {/* Hero-Bereich */}
+      <section className="relative w-full h-[90vh] flex items-center justify-center">
+        <Image
+          src="/yakazi-hero.png"
+          alt="YAKAZI | Data Science Services"
+          fill
+          className="object-cover object-center opacity-95"
+          priority
+        />
+        <div className="absolute text-center px-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-[#3E4C61] drop-shadow-lg">
+            YAKAZI | Data Science Services
+          </h1>
+          <p className="text-xl md:text-2xl mt-4 text-[#2C3442]">
+            Wir machen Künstliche Intelligenz anwendbar.
+          </p>
+          <p className="text-lg text-[#3E4C61] mt-2">
+            Für Unternehmen, Teams und Prozesse.
+          </p>
+        </div>
+      </section>
+
+      {/* Rest deines Inhalts */}
+    </main>
+  );
+}
+
+
       <motion.main
         className="bg-yakaziBlueDark text-yakaziWhite pt-24"
         initial="hidden"
@@ -249,3 +284,82 @@ export default function Home() {
     </>
   );
 }
+
+
+{/* YAKAZI KI-Chat – Dark Preset mit Glow */}
+<div id="yakazi-chat" className="fixed bottom-6 right-6 z-50 font-sans">
+  <button
+    id="yakazi-open"
+    className="bg-gradient-to-b from-[#5A6A84] to-[#2C3442] text-white px-5 py-3 rounded-full shadow-lg hover:shadow-[#A7C8E7]/60 hover:scale-105 transition transform duration-300 ease-in-out focus:outline-none"
+  >
+    💬 Fragen Sie unsere KI
+  </button>
+
+  <div
+    id="yakazi-window"
+    className="hidden flex-col w-80 h-96 bg-gradient-to-b from-[#3E4C61] to-[#1E2530] rounded-xl shadow-[0_0_25px_#A7C8E7] border border-[#A7C8E7]/60 p-3 text-white animate-fade-in"
+  >
+    <div
+      id="yakazi-messages"
+      className="flex-1 overflow-y-auto text-sm text-gray-100 mb-2 leading-relaxed scrollbar-thin scrollbar-thumb-[#A7C8E7]/50 scrollbar-track-transparent"
+    ></div>
+    <textarea
+      id="yakazi-input"
+      placeholder="Ihre Frage..."
+      className="border border-[#A7C8E7]/60 bg-[#2C3442] text-gray-100 rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#A7C8E7]"
+    ></textarea>
+  </div>
+</div>
+
+<script
+  dangerouslySetInnerHTML={{
+    __html: `
+    const openBtn = document.getElementById('yakazi-open');
+    const chatWindow = document.getElementById('yakazi-window');
+    const messagesDiv = document.getElementById('yakazi-messages');
+    const input = document.getElementById('yakazi-input');
+    let greeted = false;
+
+    openBtn.onclick = () => {
+      const isOpen = chatWindow.style.display === 'flex';
+      chatWindow.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) {
+        chatWindow.classList.add('shadow-[0_0_35px_#A7C8E7]');
+        setTimeout(() => chatWindow.classList.remove('shadow-[0_0_35px_#A7C8E7]'), 800);
+      }
+      if (!isOpen && !greeted) {
+        messagesDiv.innerHTML = "<p><b>YAKAZI KI:</b> Hallo, ich bin der <b>YAKAZI KI-Assistent</b> 🤖.<br>Ich helfe Ihnen, Künstliche Intelligenz und Data Science in Ihre Prozesse zu bringen – verständlich, praxisnah und effizient.<br><br>Wie kann ich Sie heute unterstützen?</p>";
+        greeted = true;
+      }
+    };
+
+    input.addEventListener('keydown', async (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const userMessage = input.value.trim();
+        if (!userMessage) return;
+        messagesDiv.innerHTML += '<p><b>Sie:</b> ' + userMessage + '</p>';
+        input.value = '';
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userMessage })
+        });
+        const data = await response.json();
+        messagesDiv.innerHTML += '<p><b>YAKAZI KI:</b> ' + data.reply + '</p>';
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+  `,
+  }}
+/>
+
+<style jsx global>{`
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-in-out;
+  }
+`}</style>
