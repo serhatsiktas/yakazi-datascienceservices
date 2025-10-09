@@ -155,7 +155,7 @@ export default function Home() {
         </div>
       </div>
 
-     <script
+<script
   dangerouslySetInnerHTML={{
     __html: `
     const openBtn = document.getElementById('yakazi-open');
@@ -176,13 +176,29 @@ export default function Home() {
         .replace(/\\n\\n/g, '<br><br>');                   // Absätze
     }
 
+    // --- Chatverlauf speichern ---
+    function saveMessages() {
+      localStorage.setItem('yakaziChatHistory', messagesDiv.innerHTML);
+    }
+
+    function loadMessages() {
+      const saved = localStorage.getItem('yakaziChatHistory');
+      if (saved) messagesDiv.innerHTML = saved;
+    }
+
     // --- Öffnen / Schließen ---
     openBtn.onclick = () => {
       const isOpen = chatWindow.style.display === 'flex';
       chatWindow.style.display = isOpen ? 'none' : 'flex';
-      if (!isOpen && !greeted) {
-        messagesDiv.innerHTML = "<p><b>YAKAZI KI:</b> Hallo, ich bin der <b>YAKAZI KI-Assistent</b> 🤖.<br>Ich helfe Ihnen, Künstliche Intelligenz und Data Science in Ihre Prozesse zu bringen – verständlich, praxisnah und effizient.<br><br>Wie kann ich Sie heute unterstützen?</p>";
-        greeted = true;
+      if (!isOpen) {
+        chatWindow.classList.add('shadow-[0_0_35px_#A7C8E7]');
+        setTimeout(() => chatWindow.classList.remove('shadow-[0_0_35px_#A7C8E7]'), 800);
+        loadMessages();
+        if (!greeted && !localStorage.getItem('yakaziChatHistory')) {
+          messagesDiv.innerHTML = "<p><b>YAKAZI KI:</b> Hallo, ich bin der <b>YAKAZI KI-Assistent</b> 🤖.<br>Ich helfe Ihnen, Künstliche Intelligenz und Data Science in Ihre Prozesse zu bringen – verständlich, praxisnah und effizient.<br><br>Wie kann ich Sie heute unterstützen?</p>";
+          greeted = true;
+          saveMessages();
+        }
       }
     };
 
@@ -196,6 +212,7 @@ export default function Home() {
         // Nutzertext anzeigen
         messagesDiv.innerHTML += '<p><b>Sie:</b> ' + userMessage + '</p>';
         input.value = '';
+        saveMessages();
 
         // Ladeanzeige
         const loader = document.createElement('p');
@@ -203,6 +220,7 @@ export default function Home() {
         loader.innerHTML = '<b>YAKAZI KI:</b> <span class="loading-dots">Denkt</span>';
         messagesDiv.appendChild(loader);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        saveMessages();
 
         // Punktanimation
         const dots = loader.querySelector('.loading-dots');
@@ -226,12 +244,17 @@ export default function Home() {
           const formattedReply = renderMarkdown(data.reply);
           messagesDiv.innerHTML += '<p><b>YAKAZI KI:</b> ' + formattedReply + '</p>';
           messagesDiv.scrollTop = messagesDiv.scrollHeight;
+          saveMessages();
         } catch (err) {
           clearInterval(interval);
           loader.innerHTML = "<b>YAKAZI KI:</b> ⚠️ Es gab ein Problem mit der Verbindung.";
+          saveMessages();
         }
       }
     });
+
+    // Initial: Lade Verlauf (z. B. bei Reload)
+    loadMessages();
     `,
   }}
 />
