@@ -122,3 +122,20 @@ footer a:hover {
     to { opacity: 1; transform: translateY(0); }
   }
 `}</style>
+
+<style jsx global>{`
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in { animation: fade-in 0.4s ease-in-out; }
+
+  /* Glow Animation */
+  .yakazi-glow {
+    animation: yakaziPulse 3s ease-in-out infinite;
+  }
+  @keyframes yakaziPulse {
+    0%, 100% { text-shadow: 0 0 4px #A7C8E7; opacity: 0.9; }
+    50% { text-shadow: 0 0 8px #CFE6F9; opacity: 1; }
+  }
+`}</style>

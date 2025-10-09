@@ -147,13 +147,28 @@ export default function Home() {
           💬 Fragen Sie unsere KI
         </button>
         <div
-          id="yakazi-window"
-          className="hidden flex-col w-80 h-96 bg-gradient-to-b from-[#3E4C61] to-[#1E2530] rounded-xl shadow-[0_0_25px_#A7C8E7] border border-[#A7C8E7]/60 p-3 text-white animate-fade-in"
-        >
-          <div id="yakazi-messages" className="flex-1 overflow-y-auto text-sm text-gray-100 mb-2 leading-relaxed"></div>
-          <textarea id="yakazi-input" placeholder="Ihre Frage..." className="border border-[#A7C8E7]/60 bg-[#2C3442] text-gray-100 rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#A7C8E7]"></textarea>
-        </div>
-      </div>
+  id="yakazi-window"
+  className="hidden flex-col w-80 h-96 bg-gradient-to-b from-[#3E4C61] to-[#1E2530] rounded-xl shadow-[0_0_25px_#A7C8E7] border border-[#A7C8E7]/60 p-3 text-white animate-fade-in"
+>
+  <div
+    id="yakazi-messages"
+    className="flex-1 overflow-y-auto text-sm text-gray-100 mb-2 leading-relaxed"
+  ></div>
+
+  <textarea
+    id="yakazi-input"
+    placeholder="Ihre Frage..."
+    className="border border-[#A7C8E7]/60 bg-[#2C3442] text-gray-100 rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#A7C8E7]"
+  ></textarea>
+
+  {/* Powered by YAKAZI KI */}
+  <div className="text-[11px] text-[#A7C8E7] text-center mt-2 tracking-wide select-none">
+    ⚡ powered by <span className="font-semibold text-[#CFE6F9] drop-shadow-[0_0_5px_#A7C8E7]">YAKAZI KI</span>
+    <span className="font-semibold text-[#CFE6F9] yakazi-glow">YAKAZI KI</span>
+
+  </div>
+</div>
+
 
 <script
   dangerouslySetInnerHTML={{
