@@ -78,3 +78,47 @@ footer a:hover {
     margin: 0.3em 0;
   }
 `}</style>
+
+<style jsx global>{`
+  .yakazi-message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    animation: fade-in 0.3s ease-in-out;
+  }
+  .yakazi-message.user {
+    justify-content: flex-end;
+  }
+  .yakazi-bubble {
+    max-width: 80%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .yakazi-message.ai .yakazi-bubble {
+    background: #3e4c61;
+    color: #e7eef7;
+  }
+  .yakazi-message.user .yakazi-bubble {
+    background: #a7c8e7;
+    color: #1e2530;
+  }
+  .yakazi-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #a7c8e7;
+    background: #2c3442;
+  }
+  .loading-dots {
+    color: #A7C8E7;
+    font-style: italic;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`}</style>

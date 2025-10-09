@@ -164,29 +164,25 @@ export default function Home() {
     const input = document.getElementById('yakazi-input');
     let greeted = false;
 
-    // --- Markdown-Konverter ---
     function renderMarkdown(text) {
       return text
-        .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')       // **fett**
-        .replace(/\\*(.*?)\\*/g, '<i>$1</i>')             // *kursiv*
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')          // ### Überschrift
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')           // ## Überschrift
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')            // # Überschrift
-        .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')   // - Liste
-        .replace(/\\n\\n/g, '<br><br>');                   // Absätze
+        .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')
+        .replace(/\\*(.*?)\\*/g, '<i>$1</i>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
+        .replace(/\\n\\n/g, '<br><br>');
     }
 
-    // --- Chatverlauf speichern ---
     function saveMessages() {
       localStorage.setItem('yakaziChatHistory', messagesDiv.innerHTML);
     }
-
     function loadMessages() {
       const saved = localStorage.getItem('yakaziChatHistory');
       if (saved) messagesDiv.innerHTML = saved;
     }
 
-    // --- Öffnen / Schließen ---
     openBtn.onclick = () => {
       const isOpen = chatWindow.style.display === 'flex';
       chatWindow.style.display = isOpen ? 'none' : 'flex';
@@ -195,34 +191,37 @@ export default function Home() {
         setTimeout(() => chatWindow.classList.remove('shadow-[0_0_35px_#A7C8E7]'), 800);
         loadMessages();
         if (!greeted && !localStorage.getItem('yakaziChatHistory')) {
-          messagesDiv.innerHTML = "<p><b>YAKAZI KI:</b> Hallo, ich bin der <b>YAKAZI KI-Assistent</b> 🤖.<br>Ich helfe Ihnen, Künstliche Intelligenz und Data Science in Ihre Prozesse zu bringen – verständlich, praxisnah und effizient.<br><br>Wie kann ich Sie heute unterstützen?</p>";
+          messagesDiv.innerHTML += createAIMessage("Hallo, ich bin der <b>YAKAZI KI-Assistent</b> 🤖.<br>Ich helfe Ihnen, Künstliche Intelligenz und Data Science in Ihre Prozesse zu bringen – verständlich, praxisnah und effizient.<br><br>Wie kann ich Sie heute unterstützen?");
           greeted = true;
           saveMessages();
         }
       }
     };
 
-    // --- Eingabe & GPT-Antwort ---
+    function createAIMessage(content) {
+      return '<div class="yakazi-message ai"><img src="/yakazi-icon.png" class="yakazi-avatar" alt="KI"/><div class="yakazi-bubble">'+content+'</div></div>';
+    }
+    function createUserMessage(content) {
+      return '<div class="yakazi-message user"><div class="yakazi-bubble">'+content+'</div><img src="/user-icon.png" class="yakazi-avatar" alt="User"/></div>';
+    }
+
     input.addEventListener('keydown', async (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         const userMessage = input.value.trim();
         if (!userMessage) return;
 
-        // Nutzertext anzeigen
-        messagesDiv.innerHTML += '<p><b>Sie:</b> ' + userMessage + '</p>';
+        messagesDiv.innerHTML += createUserMessage(userMessage);
         input.value = '';
         saveMessages();
 
-        // Ladeanzeige
-        const loader = document.createElement('p');
-        loader.id = 'yakazi-loading';
-        loader.innerHTML = '<b>YAKAZI KI:</b> <span class="loading-dots">Denkt</span>';
+        const loader = document.createElement('div');
+        loader.className = 'yakazi-message ai';
+        loader.innerHTML = '<img src="/yakazi-icon.png" class="yakazi-avatar" alt="KI"/><div class="yakazi-bubble"><span class="loading-dots">Denkt</span></div>';
         messagesDiv.appendChild(loader);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
         saveMessages();
 
-        // Punktanimation
         const dots = loader.querySelector('.loading-dots');
         let dotCount = 0;
         const interval = setInterval(() => {
@@ -241,19 +240,19 @@ export default function Home() {
           clearInterval(interval);
           loader.remove();
 
-          const formattedReply = renderMarkdown(data.reply);
-          messagesDiv.innerHTML += '<p><b>YAKAZI KI:</b> ' + formattedReply + '</p>';
+          const formatted = renderMarkdown(data.reply);
+          messagesDiv.innerHTML += createAIMessage(formatted);
           messagesDiv.scrollTop = messagesDiv.scrollHeight;
           saveMessages();
         } catch (err) {
           clearInterval(interval);
-          loader.innerHTML = "<b>YAKAZI KI:</b> ⚠️ Es gab ein Problem mit der Verbindung.";
+          loader.remove();
+          messagesDiv.innerHTML += createAIMessage("⚠️ Verbindungsproblem. Bitte später erneut versuchen.");
           saveMessages();
         }
       }
     });
 
-    // Initial: Lade Verlauf (z. B. bei Reload)
     loadMessages();
     `,
   }}
