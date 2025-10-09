@@ -50,3 +50,31 @@ footer a:hover {
 .fade-in {
   animation: fadeIn 1.2s ease-in-out;
 }
+
+<style jsx global>{`
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-in-out;
+  }
+  .loading-dots {
+    color: #A7C8E7;
+    font-style: italic;
+  }
+  #yakazi-messages h1, 
+  #yakazi-messages h2, 
+  #yakazi-messages h3 {
+    color: #A7C8E7;
+    margin: 0.5em 0;
+    font-weight: bold;
+  }
+  #yakazi-messages ul {
+    list-style: disc;
+    margin-left: 1.5em;
+  }
+  #yakazi-messages li {
+    margin: 0.3em 0;
+  }
+`}</style>
