@@ -125,78 +125,121 @@ export default function Home() {
 
       {/* Inline Script mit Markdown + Begrüßung */}
       <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            const input = document.getElementById('yakazi-input');
-            const sendBtn = document.getElementById('yakazi-send');
-            const messagesDiv = document.getElementById('yakazi-messages');
+  dangerouslySetInnerHTML={{
+    __html: `
+      document.addEventListener("DOMContentLoaded", () => {
+        const input = document.getElementById('yakazi-input');
+        const sendBtn = document.getElementById('yakazi-send');
+        const messagesDiv = document.getElementById('yakazi-messages');
 
-            // Markdown Renderer (Basis)
-            function renderMarkdown(text) {
-              return text
-                .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')
-                .replace(/\\*(.*?)\\*/g, '<i>$1</i>')
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
-                .replace(/\\n\\n/g, '<br><br>');
-            }
+        // 🧠 Markdown Renderer
+        function renderMarkdown(text) {
+          return text
+            .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')
+            .replace(/\\*(.*?)\\*/g, '<i>$1</i>')
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
+            .replace(/\\n\\n/g, '<br><br>');
+        }
 
-            function loadMessages() {
-              const saved = JSON.parse(localStorage.getItem('yakaziChat') || '[]');
-              const lastSaved = localStorage.getItem('yakaziChatTimestamp');
-              if (lastSaved && Date.now() - Number(lastSaved) > 86400000) {
-                localStorage.removeItem('yakaziChat');
-                localStorage.removeItem('yakaziChatTimestamp');
-                return [];
-              }
-              messagesDiv.innerHTML = saved.map(msg => '<div><b>' + msg.role + ':</b> ' + renderMarkdown(msg.text) + '</div>').join('');
-              return saved;
-            }
+        // 💾 Chat speichern / laden
+        function loadMessages() {
+          const saved = JSON.parse(localStorage.getItem('yakaziChat') || '[]');
+          const lastSaved = localStorage.getItem('yakaziChatTimestamp');
+          if (lastSaved && Date.now() - Number(lastSaved) > 86400000) {
+            localStorage.removeItem('yakaziChat');
+            localStorage.removeItem('yakaziChatTimestamp');
+            return [];
+          }
+          messagesDiv.innerHTML = saved.map(msg =>
+            '<div><b>' + msg.role + ':</b> ' + renderMarkdown(msg.text) + '</div>'
+          ).join('');
+          return saved;
+        }
 
-            function saveMessages(history) {
-              localStorage.setItem('yakaziChat', JSON.stringify(history));
-              localStorage.setItem('yakaziChatTimestamp', Date.now());
-            }
+        function saveMessages(history) {
+          localStorage.setItem('yakaziChat', JSON.stringify(history));
+          localStorage.setItem('yakaziChatTimestamp', Date.now());
+        }
 
-            let history = loadMessages();
+        let history = loadMessages();
 
-            // Begrüßung einmalig beim ersten Aufruf
-            if (history.length === 0) {
-              const welcome = "Willkommen beim **YAKAZI KI-Assistenten**!<br>Ich unterstütze Sie gerne bei Aufgaben rund um *KI, Daten & Prozesse.*";
-              messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + renderMarkdown(welcome) + '</div>';
-              history.push({ role: 'YAKAZI-KI', text: welcome });
-              saveMessages(history);
-            }
+        // 👋 Begrüßung
+        if (history.length === 0) {
+          const welcome = "Willkommen beim **YAKAZI KI-Assistenten**!<br>Ich unterstütze Sie gerne bei Aufgaben rund um *KI, Daten & Prozesse.*";
+          messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + renderMarkdown(welcome) + '</div>';
+          history.push({ role: 'YAKAZI-KI', text: welcome });
+          saveMessages(history);
+        }
 
-            sendBtn.addEventListener('click', async () => {
-              const userMsg = input.value.trim();
-              if (!userMsg) return;
+        // 📨 Nachricht senden
+        sendBtn.addEventListener('click', async () => {
+          const userMsg = input.value.trim();
+          if (!userMsg) return;
 
-              history.push({ role: 'Sie', text: userMsg });
-              messagesDiv.innerHTML += '<div><b>Sie:</b> ' + userMsg + '</div>';
-              input.value = '';
-              saveMessages(history);
+          console.log("🟢 Anfrage wird gesendet:", userMsg);
+          const startTime = performance.now();
 
-              try {
-                const response = await fetch('/api/chat', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ message: userMsg })
-                });
-                const data = await response.json();
-                const formatted = renderMarkdown(data.reply);
-                history.push({ role: 'YAKAZI-KI', text: data.reply });
-                messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + formatted + '</div>';
-                saveMessages(history);
-              } catch (err) {
-                messagesDiv.innerHTML += '<div><b>System:</b> Verbindungsfehler. Bitte später erneut versuchen.</div>';
-              }
+          history.push({ role: 'Sie', text: userMsg });
+          messagesDiv.innerHTML += '<div><b>Sie:</b> ' + userMsg + '</div>';
+          input.value = '';
+          saveMessages(history);
+
+          // Ladeanzeige
+          const loader = document.createElement('div');
+          loader.id = 'yakazi-loader';
+          loader.innerHTML = "<b>YAKAZI-KI:</b> <i>denkt...</i>";
+          messagesDiv.appendChild(loader);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+          try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 20000); // 20s Timeout
+
+            const response = await fetch('/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: userMsg }),
+              signal: controller.signal,
             });
-          `,
-        }}
-      />
+
+            clearTimeout(timeout);
+            document.getElementById('yakazi-loader')?.remove();
+
+            if (!response.ok) {
+              console.warn("⚠️ API antwortete mit Fehlerstatus:", response.status);
+              messagesDiv.innerHTML += '<div><b>System:</b> Fehler ' + response.status + '. Bitte später erneut versuchen.</div>';
+              return;
+            }
+
+            const data = await response.json();
+            console.log("✅ Antwort erhalten:", data);
+
+            const formatted = renderMarkdown(data.reply || "Keine Antwort vom Server.");
+            history.push({ role: 'YAKAZI-KI', text: data.reply });
+            messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + formatted + '</div>';
+            saveMessages(history);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            const duration = ((performance.now() - startTime) / 1000).toFixed(1);
+            console.log("⏱️ Antwortzeit:", duration, "Sekunden");
+
+          } catch (err) {
+            document.getElementById('yakazi-loader')?.remove();
+            console.error("❌ Fehler beim Senden:", err);
+
+            let errorMsg = "Verbindungsfehler. Bitte später erneut versuchen.";
+            if (err.name === "AbortError") errorMsg = "Zeitüberschreitung (20 Sekunden).";
+
+            messagesDiv.innerHTML += '<div><b>System:</b> ' + errorMsg + '</div>';
+          }
+        });
+      });
+    `,
+  }}
+/>
 
       <style jsx global>{`
         .yakazi-glow {
