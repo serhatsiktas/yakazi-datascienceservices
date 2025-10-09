@@ -29,8 +29,8 @@ export default function Home() {
   </nav>
 </header>
 
-{/* HERO-BEREICH ohne Bild */}
-<main className="flex flex-col items-center justify-center min-h-[85vh] bg-gradient-to-b from-[#1E293B] via-[#243447] to-[#0F172A] text-center px-6 pt-32 pb-20">
+{/* HERO-BEREICH */}
+<main className="flex flex-col items-center justify-center min-h-[85vh] bg-gradient-to-b from-[#162032] via-[#1E293B] to-[#0F172A] text-center px-6 pt-32 pb-20">
   <div className="max-w-3xl">
     <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
       YAKAZI | Data Science Services
@@ -51,77 +51,71 @@ export default function Home() {
   </div>
 </main>
 
-      {/* ANIMIERTER INHALT */}
-      <motion.main
-        className="bg-yakaziBlueDark text-yakaziWhite pt-24"
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-      >
-        {/* HERO SECTION */}
-        <motion.section
-          id="hero"
-          className="min-h-screen flex flex-col justify-center items-center text-center px-4"
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <h1 className="text-5xl font-bold mb-6">
-            Willkommen bei <span className="text-yakaziTurquoise">YAKAZI</span>
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl">
-            Data Science Services für Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen –
-            von der Schulung bis zur Implementierung.
-          </p>
-        </motion.section>
+{/* INHALT MIT WEICHEN ÜBERGÄNGEN */}
+<motion.main
+  className="bg-[#0F172A] text-yakaziWhite pt-24"
+  initial="hidden"
+  animate="visible"
+  variants={sectionVariants}
+>
 
-        {/* LEISTUNGEN */}
-        <motion.section id="leistungen" className="py-24 text-center" variants={sectionVariants}>
-          <h2 className="text-3xl font-semibold text-yakaziTurquoise mb-8">Leistungen</h2>
-          <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Wir bieten maßgeschneiderte Schulungen und Lösungen im Bereich Künstliche Intelligenz, Data Science und
-            Prozessautomatisierung.
-          </p>
-        </motion.section>
+  {/* Willkommen */}
+  <motion.section
+    id="hero"
+    className="min-h-[60vh] flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-[#0F172A] via-[#152235] to-[#0E1525] py-16"
+    variants={sectionVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#CFE6F9]">
+      Willkommen bei <span className="text-[#14B8A6]">YAKAZI</span>
+    </h1>
+    <p className="text-lg text-gray-300 max-w-2xl leading-relaxed">
+      Data Science Services für Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen –
+      von der Schulung bis zur Implementierung.
+    </p>
+  </motion.section>
 
-        {/* ÜBER UNS */}
-        <motion.section
-          id="ueberuns"
-          className="min-h-screen flex flex-col justify-center items-center text-center px-6 py-24"
-          initial="hidden"
-          animate="visible"
-          variants={sectionVariants}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-yakaziTurquoise mb-6">Über uns</h2>
-          <p className="text-gray-200 max-w-3xl mb-10 leading-relaxed">
-            YAKAZI | Data Science Services ist ein Geschäftsbereich der YAKAZI Group Holding. Unser Fokus liegt auf
-            praxisnahen KI-Schulungen und datengesteuerter Prozessoptimierung.
-          </p>
-          <div className="flex flex-col items-center space-y-4">
-            <Image
-              src="/Yakazi_GF_Bild_Serhat_Siktas.png"
-              alt="Serhat Siktas – Geschäftsführer"
-              width={200}
-              height={200}
-              className="rounded-full border-4 border-yakaziTurquoise shadow-lg"
-            />
-            <div className="text-center mt-3">
-              <p className="text-lg font-semibold text-yakaziWhite">Serhat Siktas</p>
-              <p className="text-sm text-gray-400">Geschäftsführer</p>
-            </div>
-          </div>
-        </motion.section>
+  {/* Leistungen */}
+  <motion.section id="leistungen" className="py-24 text-center bg-[#162032]" variants={sectionVariants}>
+    <h2 className="text-3xl font-semibold text-[#14B8A6] mb-8">Leistungen</h2>
+    <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      Wir bieten maßgeschneiderte Schulungen und Lösungen im Bereich Künstliche Intelligenz,
+      Data Science und Prozessautomatisierung.
+    </p>
+  </motion.section>
 
-        {/* KONTAKT */}
-        <motion.section id="kontakt" className="py-24 text-center mx-auto w-11/12 md:w-3/4" variants={sectionVariants}>
-          <h2 className="text-3xl font-semibold text-yakaziTurquoise mb-8">Kontakt</h2>
-          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-            Sie möchten Ihr Team schulen oder ein KI-Projekt starten?
-          </p>
-          <ContactForm />
-        </motion.section>
-      </motion.main>
+  {/* Über uns */}
+  <motion.section
+    id="ueberuns"
+    className="min-h-[70vh] flex flex-col justify-center items-center text-center px-6 py-24 bg-gradient-to-b from-[#0E1525] to-[#162032]"
+    initial="hidden"
+    animate="visible"
+    variants={sectionVariants}
+  >
+    <h2 className="text-3xl md:text-4xl font-bold text-[#14B8A6] mb-6">Über uns</h2>
+    <p className="text-gray-200 max-w-3xl mb-10 leading-relaxed">
+      YAKAZI | Data Science Services ist ein Geschäftsbereich der YAKAZI Group Holding. Unser Fokus liegt auf
+      praxisnahen KI-Schulungen und datengesteuerter Prozessoptimierung.
+    </p>
+
+    <div className="flex flex-col items-center space-y-4">
+      <Image
+        src="/Yakazi_GF_Bild_Serhat_Siktas.png"
+        alt="Serhat Siktas – Geschäftsführer"
+        width={200}
+        height={200}
+        className="rounded-full border-4 border-[#14B8A6] shadow-lg"
+      />
+      <div className="text-center mt-3">
+        <p className="text-lg font-semibold text-white">Serhat Siktas</p>
+        <p className="text-sm text-gray-400">Geschäftsführer</p>
+      </div>
+    </div>
+  </motion.section>
+</motion.main>
+
 
       {/* FOOTER */}
       <footer className="text-center text-gray-400 py-8 border-t border-gray-700 bg-yakaziBlueDark">
