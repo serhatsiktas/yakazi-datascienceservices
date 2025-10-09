@@ -29,30 +29,30 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* HERO-BEREICH */}
-      <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#CBD3E1] to-white">
-        <section className="relative w-full h-[80vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
-          <Image
-            src="/yakazi-hero.png"
-            alt="YAKAZI | Data Science Services"
-            fill
-            priority
-            className="object-cover object-center opacity-90 scale-105"
-          />
-          <div className="absolute text-center px-6 z-10">
-            <h1 className="text-4xl md:text-6xl font-bold text-[#3E4C61] drop-shadow-lg">
-              YAKAZI | Data Science Services
-            </h1>
-            <p className="text-xl md:text-2xl mt-4 text-[#2C3442]">
-              Wir machen Künstliche Intelligenz anwendbar.
-            </p>
-            <p className="text-lg text-[#3E4C61] mt-2">
-              Für Unternehmen, Teams und Prozesse.
-            </p>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-[#CBD3E1]/40"></div>
-        </section>
-      </main>
+      {/* HERO-BEREICH – ohne Hintergrundbild */}
+<main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#E6ECF4] via-[#CBD3E1] to-white text-center px-6">
+  <div className="max-w-4xl">
+    <h1 className="text-4xl md:text-6xl font-bold text-[#2C3442] mb-6 leading-tight">
+      YAKAZI | Data Science Services
+    </h1>
+    <p className="text-xl md:text-2xl text-[#3E4C61] mb-4">
+      Wir machen Künstliche Intelligenz anwendbar.
+    </p>
+    <p className="text-lg text-[#4A5568]">
+      Für Unternehmen, Teams und Prozesse.
+    </p>
+
+    {/* Optional: dezenter Yakazi-Glow-Button */}
+    <div className="mt-10">
+      <a
+        href="#kontakt"
+        className="bg-gradient-to-r from-[#3E4C61] to-[#1E2530] text-white px-8 py-3 rounded-full shadow-md hover:shadow-[#A7C8E7]/60 hover:scale-105 transition-all duration-300"
+      >
+        Kontakt aufnehmen
+      </a>
+    </div>
+  </div>
+</main>
 
       {/* ANIMIERTER INHALT */}
       <motion.main
