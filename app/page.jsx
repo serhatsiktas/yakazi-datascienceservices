@@ -253,7 +253,11 @@ export default function Home() {
       }
     });
 
-    loadMessages();
+        loadMessages();
     `,
   }}
 />
+
+    </>
+  );
+}
