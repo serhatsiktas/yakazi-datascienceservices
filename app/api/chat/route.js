@@ -1,22 +1,48 @@
 import OpenAI from "openai";
+import { NextResponse } from "next/server";
 
+// OpenAI-Client initialisieren
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req) {
-  const { message } = await req.json();
+  try {
+    const { message } = await req.json();
 
-  const completion = await client.chat.completions.create({
-    model: "gpt-5",
-    messages: [
-      { role: "system", content: "Du bist der YAKAZI KI-Assistent. Antworte professionell, freundlich und klar, auf Deutsch." },
-      { role: "user", content: message },
-    ],
-  });
+    if (!message || message.trim() === "") {
+      return NextResponse.json({
+        reply: "Bitte stellen Sie eine konkrete Frage 😊",
+      });
+    }
 
-  return new Response(
-    JSON.stringify({ reply: completion.choices[0].message.content }),
-    { status: 200 }
-  );
+    const completion = await client.chat.completions.create({
+      model: "gpt-5", // oder "gpt-4o-mini" für günstigere Variante
+      messages: [
+        {
+          role: "system",
+          content:
+            "Du bist der YAKAZI KI-Assistent. Antworte professionell, freundlich und klar auf Deutsch. Sprich in einem Ton, der sowohl technische Expertise als auch Verständnis für Unternehmensprozesse zeigt.",
+        },
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+    });
+
+    const reply = completion.choices[0].message?.content || "Ich konnte leider keine Antwort generieren.";
+
+    return NextResponse.json({ reply });
+  } catch (error) {
+    console.error("❌ Fehler im Yakazi Chat API:", error);
+    return NextResponse.json(
+      {
+        reply:
+          "Entschuldigung, es gab ein technisches Problem beim Abrufen der Antwort. Bitte versuchen Sie es später erneut.",
+      },
+      { status: 500 }
+    );
+  }
 }
+
