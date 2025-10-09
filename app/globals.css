@@ -21,121 +21,99 @@ button {
 button:hover {
   @apply bg-yakaziWhite text-yakaziBlue;
 }
-/* --- Sanftes Scrollen und Offset für Ankerbereiche --- */
-html {
-  scroll-behavior: smooth;
+
+/* Sanftes Scrollen und Offset für Ankerbereiche */
+section[id] {
+  scroll-margin-top: 100px;
 }
 
-section[id] {
-  scroll-margin-top: 100px; /* Höhe des fixierten Headers */
-}
-/* --- Individuelle Yakazi-Formularstile --- */
+/* Individuelle Yakazi-Formularstile */
 ::placeholder {
-  color: #9ca3af; /* Tailwind gray-400 */
+  color: #9ca3af;
 }
 
 input,
 textarea {
-  color: #ffffff; /* Weißer Text in Eingabefeldern */
+  color: #ffffff;
 }
+
 footer a:hover {
   text-shadow: 0 0 6px rgba(20, 184, 166, 0.6);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Keyframes und Animationen */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.fade-in {
-  animation: fadeIn 1.2s ease-in-out;
+.animate-fade-in {
+  animation: fade-in 0.4s ease-in-out;
 }
 
-<style jsx global>{`
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-in-out;
-  }
-  .loading-dots {
-    color: #A7C8E7;
-    font-style: italic;
-  }
-  #yakazi-messages h1, 
-  #yakazi-messages h2, 
-  #yakazi-messages h3 {
-    color: #A7C8E7;
-    margin: 0.5em 0;
-    font-weight: bold;
-  }
-  #yakazi-messages ul {
-    list-style: disc;
-    margin-left: 1.5em;
-  }
-  #yakazi-messages li {
-    margin: 0.3em 0;
-  }
-`}</style>
+/* Glow-Effekt für KI */
+.yakazi-glow {
+  animation: yakaziPulse 3s ease-in-out infinite;
+}
 
-<style jsx global>{`
-  .yakazi-message {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    gap: 0.5rem;
-    animation: fade-in 0.3s ease-in-out;
+@keyframes yakaziPulse {
+  0%, 100% {
+    text-shadow: 0 0 4px #A7C8E7;
+    opacity: 0.9;
   }
-  .yakazi-message.user {
-    justify-content: flex-end;
+  50% {
+    text-shadow: 0 0 8px #CFE6F9;
+    opacity: 1;
   }
-  .yakazi-bubble {
-    max-width: 80%;
-    padding: 0.6rem 0.9rem;
-    border-radius: 1rem;
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-  .yakazi-message.ai .yakazi-bubble {
-    background: #3e4c61;
-    color: #e7eef7;
-  }
-  .yakazi-message.user .yakazi-bubble {
-    background: #a7c8e7;
-    color: #1e2530;
-  }
-  .yakazi-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #a7c8e7;
-    background: #2c3442;
-  }
-  .loading-dots {
-    color: #A7C8E7;
-    font-style: italic;
-  }
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-`}</style>
+}
 
-<style jsx global>{`
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in { animation: fade-in 0.4s ease-in-out; }
+/* Chat Styles */
+.yakazi-message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  animation: fade-in 0.3s ease-in-out;
+}
 
-  /* Glow Animation */
-  .yakazi-glow {
-    animation: yakaziPulse 3s ease-in-out infinite;
-  }
-  @keyframes yakaziPulse {
-    0%, 100% { text-shadow: 0 0 4px #A7C8E7; opacity: 0.9; }
-    50% { text-shadow: 0 0 8px #CFE6F9; opacity: 1; }
-  }
-`}</style>
+.yakazi-message.user {
+  justify-content: flex-end;
+}
+
+.yakazi-bubble {
+  max-width: 80%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.yakazi-message.ai .yakazi-bubble {
+  background: #3e4c61;
+  color: #e7eef7;
+}
+
+.yakazi-message.user .yakazi-bubble {
+  background: #a7c8e7;
+  color: #1e2530;
+}
+
+.yakazi-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #a7c8e7;
+  background: #2c3442;
+}
+
+.loading-dots {
+  color: #A7C8E7;
+  font-style: italic;
+}
