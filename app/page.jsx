@@ -31,21 +31,26 @@ export default function Home() {
 
       {/* HERO-BEREICH */}
       <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#CBD3E1] to-white">
-        <section className="relative w-full h-[90vh] flex items-center justify-center">
+        <section className="relative w-full h-[80vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
           <Image
             src="/yakazi-hero.png"
             alt="YAKAZI | Data Science Services"
             fill
-            className="object-cover object-center opacity-95"
             priority
+            className="object-cover object-center opacity-90 scale-105"
           />
-          <div className="absolute text-center px-6">
+          <div className="absolute text-center px-6 z-10">
             <h1 className="text-4xl md:text-6xl font-bold text-[#3E4C61] drop-shadow-lg">
               YAKAZI | Data Science Services
             </h1>
-            <p className="text-xl md:text-2xl mt-4 text-[#2C3442]">Wir machen Künstliche Intelligenz anwendbar.</p>
-            <p className="text-lg text-[#3E4C61] mt-2">Für Unternehmen, Teams und Prozesse.</p>
+            <p className="text-xl md:text-2xl mt-4 text-[#2C3442]">
+              Wir machen Künstliche Intelligenz anwendbar.
+            </p>
+            <p className="text-lg text-[#3E4C61] mt-2">
+              Für Unternehmen, Teams und Prozesse.
+            </p>
           </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-[#CBD3E1]/40"></div>
         </section>
       </main>
 
@@ -131,7 +136,7 @@ export default function Home() {
       </footer>
 
       {/* YAKAZI KI-CHAT */}
-      <div id="yakazi-chat" className="fixed bottom-6 right-6 z-50 font-sans">
+      <div id="yakazi-chat" className="fixed bottom-6 right-6 z-[9999] font-sans">
         <button
           id="yakazi-open"
           className="bg-gradient-to-b from-[#5A6A84] to-[#2C3442] text-white px-5 py-3 rounded-full shadow-lg hover:shadow-[#A7C8E7]/60 hover:scale-105 transition transform duration-300 ease-in-out focus:outline-none"
@@ -143,21 +148,14 @@ export default function Home() {
           id="yakazi-window"
           className="hidden flex-col w-80 h-96 bg-gradient-to-b from-[#3E4C61] to-[#1E2530] rounded-xl shadow-[0_0_25px_#A7C8E7] border border-[#A7C8E7]/60 p-3 text-white animate-fade-in"
         >
-          <div
-            id="yakazi-messages"
-            className="flex-1 overflow-y-auto text-sm text-gray-100 mb-2 leading-relaxed"
-          ></div>
-
+          <div id="yakazi-messages" className="flex-1 overflow-y-auto text-sm text-gray-100 mb-2 leading-relaxed"></div>
           <textarea
             id="yakazi-input"
             placeholder="Ihre Frage..."
             className="border border-[#A7C8E7]/60 bg-[#2C3442] text-gray-100 rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#A7C8E7]"
           ></textarea>
-
-          {/* Powered by YAKAZI KI */}
           <div className="text-[11px] text-[#A7C8E7] text-center mt-2 tracking-wide select-none">
-            ⚡ powered by{" "}
-            <span className="font-semibold text-[#CFE6F9] yakazi-glow">YAKAZI KI</span>
+            ⚡ powered by <span className="font-semibold text-[#CFE6F9] yakazi-glow">YAKAZI KI</span>
           </div>
         </div>
       </div>
@@ -282,7 +280,6 @@ export default function Home() {
           50% { text-shadow: 0 0 8px #CFE6F9; opacity: 1; }
         }
 
-        /* optionale Bubbles (falls gewünscht) */
         .yakazi-message { display: flex; align-items: flex-end; gap: 8px; margin: 8px 0; }
         .yakazi-message.ai { justify-content: flex-start; }
         .yakazi-message.user { justify-content: flex-end; }
