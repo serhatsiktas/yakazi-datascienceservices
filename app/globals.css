@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 /* Basisdesign YAKAZI */
 html {
@@ -15,11 +15,21 @@ a {
 }
 
 button {
-  @apply bg-yakaziTurquoise text-yakaziWhite px-5 py-2 rounded-xl font-semibold transition duration-300;
+  background-color: #14B8A6; /* Replace with your yakaziTurquoise color */
+  color: #F9FAFB; /* Replace with your yakaziWhite color */
+  padding-left: 1.25rem; /* px-5 */
+button:hover {
+  background-color: #F9FAFB; /* yakaziWhite */
+  color: #0F172A; /* yakaziBlue, replace with your actual color code */
+}
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 600; /* font-semibold */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
-  @apply bg-yakaziWhite text-yakaziBlue;
+  background-color: #F9FAFB; /* yakaziWhite */
+  color: #0F172A; /* yakaziBlue */
 }
 
 /* Sanftes Scrollen und Offset für Ankerbereiche */
