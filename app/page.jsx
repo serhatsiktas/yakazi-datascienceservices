@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import ContactForm from "./components/ContactForm";
@@ -11,13 +11,86 @@ const sectionVariants = {
 };
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    console.log("🧠 YAKAZI-KI Skript initialisiert");
 
-  if (!mounted) return null;
+    const input = document.getElementById("yakazi-input");
+    const sendBtn = document.getElementById("yakazi-send");
+    const messagesDiv = document.getElementById("yakazi-messages");
+
+    if (!input || !sendBtn || !messagesDiv) {
+      console.warn("⚠️ KI-Elemente wurden nicht gefunden.");
+      return;
+    }
+
+    // Markdown Renderer
+    const renderMarkdown = (text) =>
+      text
+        .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+        .replace(/\*(.*?)\*/g, "<i>$1</i>")
+        .replace(/\n\n/g, "<br><br>");
+
+    const loadMessages = () => {
+      const saved = JSON.parse(localStorage.getItem("yakaziChat") || "[]");
+      messagesDiv.innerHTML = saved
+        .map((msg) => `<div><b>${msg.role}:</b> ${renderMarkdown(msg.text)}</div>`)
+        .join("");
+      return saved;
+    };
+
+    const saveMessages = (history) => {
+      localStorage.setItem("yakaziChat", JSON.stringify(history));
+    };
+
+    let history = loadMessages();
+
+    // Begrüßung
+    if (history.length === 0) {
+      const welcome =
+        "Willkommen beim **YAKAZI KI-Assistenten**!<br>Ich unterstütze Sie gerne bei Aufgaben rund um *KI, Daten & Prozesse.*";
+      messagesDiv.innerHTML += `<div><b>YAKAZI-KI:</b> ${renderMarkdown(welcome)}</div>`;
+      history.push({ role: "YAKAZI-KI", text: welcome });
+      saveMessages(history);
+    }
+
+    // Button-Klick
+    sendBtn.addEventListener("click", async () => {
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      console.log("🟢 Anfrage wird gesendet:", userMsg);
+      messagesDiv.innerHTML += `<div><b>Sie:</b> ${userMsg}</div>`;
+      input.value = "";
+      saveMessages(history);
+
+      const loader = document.createElement("div");
+      loader.innerHTML = "<b>YAKAZI-KI:</b> <i>denkt...</i>";
+      messagesDiv.appendChild(loader);
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg }),
+        });
+
+        const data = await response.json();
+        loader.remove();
+        messagesDiv.innerHTML += `<div><b>YAKAZI-KI:</b> ${renderMarkdown(
+          data.reply
+        )}</div>`;
+        history.push({ role: "YAKAZI-KI", text: data.reply });
+        saveMessages(history);
+        console.log("✅ Antwort erhalten:", data);
+      } catch (err) {
+        loader.remove();
+        console.error("❌ Fehler beim Senden:", err);
+        messagesDiv.innerHTML +=
+          "<div><b>System:</b> Verbindungsfehler. Bitte später erneut versuchen.</div>";
+      }
+    });
+  }, []);
+  
   return (
     <>
       {/* HEADER */}
@@ -124,122 +197,7 @@ export default function Home() {
       </footer>
 
       {/* Inline Script mit Markdown + Begrüßung */}
-      <script
-  dangerouslySetInnerHTML={{
-    __html: `
-      document.addEventListener("DOMContentLoaded", () => {
-        const input = document.getElementById('yakazi-input');
-        const sendBtn = document.getElementById('yakazi-send');
-        const messagesDiv = document.getElementById('yakazi-messages');
-
-        // 🧠 Markdown Renderer
-        function renderMarkdown(text) {
-          return text
-            .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')
-            .replace(/\\*(.*?)\\*/g, '<i>$1</i>')
-            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-            .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
-            .replace(/\\n\\n/g, '<br><br>');
-        }
-
-        // 💾 Chat speichern / laden
-        function loadMessages() {
-          const saved = JSON.parse(localStorage.getItem('yakaziChat') || '[]');
-          const lastSaved = localStorage.getItem('yakaziChatTimestamp');
-          if (lastSaved && Date.now() - Number(lastSaved) > 86400000) {
-            localStorage.removeItem('yakaziChat');
-            localStorage.removeItem('yakaziChatTimestamp');
-            return [];
-          }
-          messagesDiv.innerHTML = saved.map(msg =>
-            '<div><b>' + msg.role + ':</b> ' + renderMarkdown(msg.text) + '</div>'
-          ).join('');
-          return saved;
-        }
-
-        function saveMessages(history) {
-          localStorage.setItem('yakaziChat', JSON.stringify(history));
-          localStorage.setItem('yakaziChatTimestamp', Date.now());
-        }
-
-        let history = loadMessages();
-
-        // 👋 Begrüßung
-        if (history.length === 0) {
-          const welcome = "Willkommen beim **YAKAZI KI-Assistenten**!<br>Ich unterstütze Sie gerne bei Aufgaben rund um *KI, Daten & Prozesse.*";
-          messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + renderMarkdown(welcome) + '</div>';
-          history.push({ role: 'YAKAZI-KI', text: welcome });
-          saveMessages(history);
-        }
-
-        // 📨 Nachricht senden
-        sendBtn.addEventListener('click', async () => {
-          const userMsg = input.value.trim();
-          if (!userMsg) return;
-
-          console.log("🟢 Anfrage wird gesendet:", userMsg);
-          const startTime = performance.now();
-
-          history.push({ role: 'Sie', text: userMsg });
-          messagesDiv.innerHTML += '<div><b>Sie:</b> ' + userMsg + '</div>';
-          input.value = '';
-          saveMessages(history);
-
-          // Ladeanzeige
-          const loader = document.createElement('div');
-          loader.id = 'yakazi-loader';
-          loader.innerHTML = "<b>YAKAZI-KI:</b> <i>denkt...</i>";
-          messagesDiv.appendChild(loader);
-          messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-          try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 20000); // 20s Timeout
-
-            const response = await fetch('/api/chat', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ message: userMsg }),
-              signal: controller.signal,
-            });
-
-            clearTimeout(timeout);
-            document.getElementById('yakazi-loader')?.remove();
-
-            if (!response.ok) {
-              console.warn("⚠️ API antwortete mit Fehlerstatus:", response.status);
-              messagesDiv.innerHTML += '<div><b>System:</b> Fehler ' + response.status + '. Bitte später erneut versuchen.</div>';
-              return;
-            }
-
-            const data = await response.json();
-            console.log("✅ Antwort erhalten:", data);
-
-            const formatted = renderMarkdown(data.reply || "Keine Antwort vom Server.");
-            history.push({ role: 'YAKAZI-KI', text: data.reply });
-            messagesDiv.innerHTML += '<div><b>YAKAZI-KI:</b> ' + formatted + '</div>';
-            saveMessages(history);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            const duration = ((performance.now() - startTime) / 1000).toFixed(1);
-            console.log("⏱️ Antwortzeit:", duration, "Sekunden");
-
-          } catch (err) {
-            document.getElementById('yakazi-loader')?.remove();
-            console.error("❌ Fehler beim Senden:", err);
-
-            let errorMsg = "Verbindungsfehler. Bitte später erneut versuchen.";
-            if (err.name === "AbortError") errorMsg = "Zeitüberschreitung (20 Sekunden).";
-
-            messagesDiv.innerHTML += '<div><b>System:</b> ' + errorMsg + '</div>';
-          }
-        });
-      });
-    `,
-  }}
-/>
+      
 
       <style jsx global>{`
         .yakazi-glow {
