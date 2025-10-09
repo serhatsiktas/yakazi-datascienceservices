@@ -293,3 +293,4 @@ export default function Home() {
     </>
   );
 }
+{/* Testzeile für Auto-Deploy – wird gleich wieder entfernt */}
