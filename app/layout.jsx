@@ -1,20 +1,6 @@
 import "./globals.css";
 
 export const metadata = {
-   twitter: {
-    card: "summary_large_image",
-    title: "YAKAZI | Data Science Services",
-    description:
-      "Wir machen Künstliche Intelligenz anwendbar – für Unternehmen, Teams und Prozesse.",
-    images: ["/yakazi-hero.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
-};
-
   title: "YAKAZI | Data Science Services",
   description:
     "Wir machen Künstliche Intelligenz anwendbar – für Unternehmen, Teams und Prozesse. YAKAZI Data Science Services hilft Unternehmen, KI-Potenziale in Produktivität zu verwandeln.",
@@ -41,7 +27,7 @@ export const metadata = {
     siteName: "YAKAZI Data Science Services",
     images: [
       {
-        url: "/yakazi-hero.png", 
+        url: "/yakazi-hero.png",
         width: 1200,
         height: 630,
         alt: "YAKAZI | Data Science Services – KI für Unternehmen",
@@ -57,20 +43,22 @@ export const metadata = {
       "Wir machen Künstliche Intelligenz anwendbar – für Unternehmen, Teams und Prozesse.",
     images: ["/yakazi-hero.png"],
   },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="de">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/svg+xml" href="/yakazi-logo.svg" />
+        <link rel="icon" href="/favicon.png" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3E4C61" />
       </head>
       <body>{children}</body>
     </html>
   );
 }
-
