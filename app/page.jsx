@@ -167,7 +167,7 @@ export default function Home() {
               </p>
             </div>
             <div className="bg-[#0f1e2e] p-6 rounded-xl shadow-md border border-gray-700 hover:border-yakaziTurquoise transition">
-              <h3 className="text-xl font-semibold mb-3 text-yakaziTurquoise">Prozessautomatisierung</h3>
+              <h3 className="text-xl font-semibold mb-3 text-yakaziTurquoise">Automatisierung</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Intelligente Workflows, Bots für Routineaufgaben, nahtlose Datenintegration.
               </p>
