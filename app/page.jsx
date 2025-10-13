@@ -57,7 +57,7 @@ export default function Home() {
 
     // Begrüßung
     if (history.length === 0) {
-      const welcome = "Willkommen beim **YAKAZI KI-Assistenten**!<br>Ich unterstütze Sie gerne bei Aufgaben rund um *KI, Daten & Prozesse.*";
+      const welcome = "Willkommen beim **YAKAZI KI-Assistenten**!<br>Unsere KI-Tools unterstützen Sie gerne bei Aufgaben und Fragen rund um *KI, Daten & Prozesse.*";
       messagesDiv.innerHTML += `<div class="yakazi-reply"><b>YAKAZI-KI:</b> ${md(welcome)}</div>`;
       history.push({ role: "YAKAZI-KI", text: welcome });
       save(history);
