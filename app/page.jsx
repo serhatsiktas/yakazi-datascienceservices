@@ -149,7 +149,7 @@ export default function Home() {
             Willkommen bei <span className="text-yakaziTurquoise">YAKAZI</span>
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl">
-            Data Science Services für Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen – von der Schulung bis zur Implementierung.
+            Data Science Services für private und öffentliche Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen – von der Schulung ihrer Teams bis zur Implementierung im Tagesgeschäft.
           </p>
         </motion.section>
 
@@ -200,7 +200,7 @@ export default function Home() {
         <motion.section id="kontakt" className="py-20 text-center mx-auto w-11/12 md:w-3/4" variants={sectionVariants}>
           <h2 className="text-3xl font-semibold text-yakaziTurquoise mb-2">Kontakt</h2>
           <p className="text-gray-300 mb-0 max-w-2xl mx-auto">
-            Sie möchten Ihr Team schulen oder ein KI-Projekt starten?
+            Sie möchten Ihr Team schulen, wollen ein Bot erstellen oder ein KI-Projekt starten?
           </p>
           <ContactForm />
         </motion.section>
