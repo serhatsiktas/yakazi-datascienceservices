@@ -1,0 +1,70 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "yakazi.de"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.yakazi.de"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "yakazi.eu"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.yakazi.eu"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "data-science-services.com"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.data-science-services.com"
+        }
+      ],
+      "destination": "https://data-science-services.de/:splat",
+      "permanent": true
+    }
+  ]
+}
