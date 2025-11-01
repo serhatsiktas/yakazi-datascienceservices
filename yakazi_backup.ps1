@@ -1,33 +1,79 @@
-# 🧠 YAKAZI Backup-Skript für Windows PowerShell
-# Autor: Serhat Siktas & GPT-5
-# Zweck: Schnelles Git-Backup mit Zeitstempel und Push zu GitHub
+# 💾 Yakazi Smart Backup v2.0
+# Automatische tägliche Sicherung mit Datum & automatischer Bereinigung alter Backups
 
-# 🗂 Projektverzeichnis anpassen (Pfad zu deinem Repo)
-Set-Location "C:\Users\Besitzer\OneDrive - GFN GmbH (EDU)\Dokumente\GitHub\yakazi-datascienceservices"
+Write-Host "---------------------------------------------"
+Write-Host "🔹 YAKAZI | Smart Backup v2.0"
+Write-Host "---------------------------------------------`n"
 
-# 🕒 Zeitstempel erzeugen
-$timestamp = Get-Date -Format "yyyy-MM-dd-HHmm"
-$branch = "backup-$timestamp"
+# 🧠 Projektname
+$projectName = "yakazi-datascienceservices"
 
-Write-Host "🧠 Starte Backup für YAKAZI-Projekt..."
-Write-Host "⏰ Erstelle Branch: $branch"
+# 📁 Quellpfade
+$pcloudPath = "P:\02_Dokumente\Projekte\Yakazi\GitHub\$projectName"
+$localPath  = "C:\Yakazi\$projectName"
 
-# 🔁 Auf main wechseln und Änderungen erfassen
-git checkout main
-git add .
+# 📦 Backup-Stammverzeichnis
+$backupRoot = "C:\Yakazi_Backup"
 
-# 💾 Commit mit Zeitangabe
-git commit -m "Backup: Stable YAKAZI-KI-Version $timestamp"
+# 📅 Aktuelles Datum (z. B. 2025-10-13)
+$dateStamp = (Get-Date).ToString("yyyy-MM-dd")
 
-# 🌿 Neuen Backup-Branch anlegen
-git checkout -b $branch
+# 📁 Zielordner für heutiges Backup
+$backupPath = Join-Path $backupRoot "$dateStamp\$projectName"
 
-# ☁️ Zu GitHub pushen
-git push origin $branch
+# 📍 Quelle bestimmen
+if (Test-Path $pcloudPath) {
+    Write-Host "✅ Quelle (pCloud) gefunden:"
+    Write-Host "   $pcloudPath"
+    $sourcePath = $pcloudPath
+} elseif (Test-Path $localPath) {
+    Write-Host "⚙️  pCloud nicht verbunden – nutze lokale Quelle:"
+    Write-Host "   $localPath"
+    $sourcePath = $localPath
+} else {
+    Write-Host "❌ Fehler: Kein Quellpfad gefunden!"
+    Write-Host "Bitte pCloud verbinden oder lokalen Ordner prüfen."
+    Pause
+    Exit
+}
 
-Write-Host "✅ Backup erfolgreich erstellt und auf GitHub hochgeladen:"
-Write-Host "   → Branch: $branch"
-Write-Host "   → Repository: $(git remote get-url origin)"
-Write-Host ""
-Write-Host "📦 Du kannst diesen Stand jederzeit wiederherstellen mit:"
-Write-Host "   git checkout $branch"
+# 📁 Backup-Ordner prüfen/erstellen
+if (-Not (Test-Path $backupPath)) {
+    Write-Host "`n📂 Erstelle Backup-Ziel: $backupPath"
+    New-Item -ItemType Directory -Force -Path $backupPath | Out-Null
+} else {
+    Write-Host "`n✅ Backup-Ziel vorhanden."
+}
+
+# 🔄 Backup starten (robocopy mit Ausschlüssen)
+Write-Host "`n🔄 Starte inkrementelles Backup..."
+$cmd = "robocopy `"$sourcePath`" `"$backupPath`" /MIR /XD node_modules .next .git /R:1 /W:1"
+Write-Host "➡️  Befehl: $cmd`n"
+Invoke-Expression $cmd
+
+# 📊 Prüfergebnis
+if ($LASTEXITCODE -lt 8) {
+    Write-Host "`n✅ Backup erfolgreich abgeschlossen."
+} else {
+    Write-Host "`n⚠️  Backup abgeschlossen, aber mit Warnungen (Code: $LASTEXITCODE)"
+}
+
+# 🧹 Alte Backups aufräumen (älter als 7 Tage)
+Write-Host "`n🧹 Lösche alte Backups (älter als 7 Tage)..."
+$oldBackups = Get-ChildItem -Path $backupRoot | Where-Object {
+    $_.PSIsContainer -and
+    ($_.Name -match '^\d{4}-\d{2}-\d{2}$') -and
+    ((Get-Date) - [datetime]$_.Name -gt (New-TimeSpan -Days 7))
+}
+
+foreach ($folder in $oldBackups) {
+    Write-Host "🗑️  Entferne $($folder.FullName)"
+    Remove-Item -Recurse -Force $folder.FullName
+}
+
+Write-Host "`n---------------------------------------------"
+Write-Host "📦 Quelle: $sourcePath"
+Write-Host "💾 Neues Backup: $backupPath"
+Write-Host "---------------------------------------------"
+Write-Host "✅ Backup abgeschlossen – drücke eine Taste zum Beenden."
+Pause
