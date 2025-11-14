@@ -148,8 +148,16 @@ export default function Home() {
           <h1 className="text-5xl font-bold mb-6">
             Willkommen bei <span className="text-yakaziTurquoise">YAKAZI</span>
           </h1>
+<<<<<<< Updated upstream
           <p className="text-lg text-gray-300 max-w-2xl">
             Data Science Services für private und öffentliche Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen – von der Schulung ihrer Teams bis zur Implementierung im Tagesgeschäft.
+=======
+          <h2 className="text-3xl font-semibold mb-8">Ihr Erfolg ist unsere Mission.</h2>
+          <p className="text-lg text-gray-300 max-w-2xl">
+            Data Science Services für Handwerk, Industrie und Kommunen. 
+            <br />
+            Wettbewerbsvorteil mit künstlicher Intelligenz – von der Beratung, Analyse und Implementierung bis zur Schulung ihrer Teams.
+>>>>>>> Stashed changes
           </p>
         </motion.section>
 
@@ -185,7 +193,13 @@ export default function Home() {
         <motion.section id="ueberuns" className="min-h-screen flex flex-col justify-center items-center text-center px-6" variants={sectionVariants}>
           <h2 className="text-3xl md:text-4xl font-bold text-yakaziTurquoise mb-6">Über uns</h2>
           <p className="text-gray-200 max-w-3xl mb-10 leading-relaxed">
+<<<<<<< Updated upstream
             YAKAZI | Data Science Services ist ein Geschäftsbereich der YAKAZI Group Holding. Fokus: praxisnahe KI-Schulungen und datengesteuerte Prozessoptimierung.
+=======
+            KNOW-HOW: Über 20 Jahre Industrieerfahrung im internationalen Projekt- und Seriengeschäft trifft auf künstliche Intelligenz.
+            <br />
+            FOKUS: Datenbasierte Prozessoptimierung durch Einsatz von KI im Einkauf & Vertrieb, inklusive KI-Schulung.
+>>>>>>> Stashed changes
           </p>
           <div className="flex flex-col items-center space-y-4">
             <Image src="/Yakazi_GF_Bild_Serhat_Siktas.png" alt="Serhat Siktas – Geschäftsführer" width={200} height={200} className="rounded-full border-4 border-yakaziTurquoise shadow-lg" />
