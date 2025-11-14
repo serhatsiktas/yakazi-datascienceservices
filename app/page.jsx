@@ -149,8 +149,16 @@ export default function Home() {
             Willkommen bei <span className="text-yakaziTurquoise">YAKAZI</span>
           </h1>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <p className="text-lg text-gray-300 max-w-2xl">
             Data Science Services für private und öffentliche Unternehmen. Wir helfen Ihnen, KI- und Datenprozesse effizient einzusetzen – von der Schulung ihrer Teams bis zur Implementierung im Tagesgeschäft.
+=======
+          <h2 className="text-3xl font-semibold mb-8">Ihr Erfolg ist unsere Mission.</h2>
+          <p className="text-lg text-gray-300 max-w-2xl">
+            Data Science Services für Handwerk, Industrie und Kommunen. 
+            <br />
+            Wettbewerbsvorteil mit künstlicher Intelligenz – von der Beratung, Analyse und Implementierung bis zur Schulung ihrer Teams.
+>>>>>>> Stashed changes
 =======
           <h2 className="text-3xl font-semibold mb-8">Ihr Erfolg ist unsere Mission.</h2>
           <p className="text-lg text-gray-300 max-w-2xl">
@@ -194,7 +202,13 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-yakaziTurquoise mb-6">Über uns</h2>
           <p className="text-gray-200 max-w-3xl mb-10 leading-relaxed">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             YAKAZI | Data Science Services ist ein Geschäftsbereich der YAKAZI Group Holding. Fokus: praxisnahe KI-Schulungen und datengesteuerte Prozessoptimierung.
+=======
+            KNOW-HOW: Über 20 Jahre Industrieerfahrung im internationalen Projekt- und Seriengeschäft trifft auf künstliche Intelligenz.
+            <br />
+            FOKUS: Datenbasierte Prozessoptimierung durch Einsatz von KI im Einkauf & Vertrieb, inklusive KI-Schulung.
+>>>>>>> Stashed changes
 =======
             KNOW-HOW: Über 20 Jahre Industrieerfahrung im internationalen Projekt- und Seriengeschäft trifft auf künstliche Intelligenz.
             <br />
