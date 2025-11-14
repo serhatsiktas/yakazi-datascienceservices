@@ -1,4 +1,6 @@
 import "./globals.css";
+import YakaziFooter from './components/YakaziFooter';
+
 
 export const metadata = {
   title: "YAKAZI | Data Science Services",
